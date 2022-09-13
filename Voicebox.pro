@@ -1,5 +1,3 @@
-CONFIG += static
-
 QT += quick
 QT += multimedia
 
