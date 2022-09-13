@@ -11,22 +11,41 @@ Window {
     title: qsTr("Voicebox")
 
     MenuBar {
+        id: menuBar
+        width: mainWindow.width
         height: 30
         Menu {
             title: "Options"
-            MenuItem {
-                text:"Mute"
-                onClicked: { typingSound.muted = !typingSound.muted }
-            }
-            MenuItem {
-                text: "-"
-                onClicked: { textBox.font.pointSize -= 2 }
-            }
-            MenuItem {
-                text: "+"
-                onClicked: { textBox.font.pointSize += 2 }
+            Action {
+                text: "Play sound"
+                checkable: true
+                checked: true
+                onToggled: { typingSound.muted = !typingSound.muted } // maybe check here in case it breaks
             }
         }
+    }
+    ToolButton {
+        id: incFontButton
+        parent: menuBar
+        width: 30
+        anchors.right: parent.right
+        text: "+"
+        onClicked: textBox.font.pointSize += 2
+    }
+    ToolButton {
+        id: decFontButton
+        parent: menuBar
+        anchors.right: incFontButton.left
+        width: 30
+
+        text: "-"
+        onClicked: textBox.font.pointSize -= 2
+    }
+    ToolButton {
+        parent: menuBar
+        anchors.right: decFontButton.left
+        text: "Clear"
+        onClicked: textBox.text = ""
     }
 
     TextEdit {
