@@ -2,24 +2,25 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls
 import QtMultimedia
+import Qt.labs.settings
 
 Window {
     id: mainWindow
     width: 1000
-    height: 100
+    height: 80
     visible: true
-    color: "black"
+    color: nightModeButton.checked ? "black" : "white"
     title: qsTr("Voicebox")
 
-    TextEdit {
+    TextInput {
         id: textBox
         y: 30
         anchors.horizontalCenter: parent.horizontalCenter
         width: mainWindow.width - 10
         height: mainWindow.height - 30
         font.family: "Helvetica"
-        font.pointSize: 20
-        color: "white"
+        font.pointSize: 34
+        color: "pink"
         focus: true
         wrapMode: TextEdit.Wrap
         onTextChanged: {
@@ -32,7 +33,7 @@ Window {
     }
 
     // multiple sound effects to avoid cutting out while still allowing sound on faster typing
-    property real sfxVolume: 0.4
+    property real sfxVolume: 0.25
     SoundEffect {
         id: typingSound1
         source: "sfx.wav"
@@ -82,16 +83,6 @@ Window {
                 text: "Night Mode"
                 checkable: true
                 checked: true
-                onToggled: {
-                    if (checked) {
-                        mainWindow.color = "black"
-                        textBox.color = "white"
-                    }
-                    else {
-                        mainWindow.color = "white"
-                        textBox.color = "black"
-                    }
-                }
             }
         }
     }
@@ -100,7 +91,7 @@ Window {
         parent: menuBar
         width: 30
         anchors.right: parent.right
-        text: "+"
+        text: "A+"
         onClicked: textBox.font.pointSize += 2
     }
     ToolButton {
@@ -108,8 +99,7 @@ Window {
         parent: menuBar
         anchors.right: incFontButton.left
         width: 30
-
-        text: "-"
+        text: "A-"
         onClicked: textBox.font.pointSize -= 2
     }
     ToolButton {
@@ -133,5 +123,13 @@ Window {
     Shortcut {
         sequence: StandardKey.ZoomOut
         onActivated: decFontButton.clicked()
+    }
+
+    // settings
+    Settings {
+        property alias fontSize: textBox.font.pointSize
+        property alias volume: mainWindow.sfxVolume
+        property alias mute: muteButton.checked
+        property alias nightMode: nightModeButton.checked
     }
 }
