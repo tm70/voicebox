@@ -5,8 +5,8 @@ import QtMultimedia
 
 Window {
     id: mainWindow
-    width: 640
-    height: 480
+    width: 800
+    height: 230
     visible: true
     title: qsTr("Voicebox")
 
@@ -17,10 +17,11 @@ Window {
         Menu {
             title: "Options"
             Action {
-                text: "Play sound"
+                id: muteButton
+                text: "Mute"
                 checkable: true
-                checked: true
-                onToggled: { typingSound.muted = !typingSound.muted } // maybe check here in case it breaks
+                checked: false
+                onToggled: { typingSound.muted = checked;  }
             }
         }
     }
@@ -42,13 +43,18 @@ Window {
         onClicked: textBox.font.pointSize -= 2
     }
     ToolButton {
+        id: clearButton
         parent: menuBar
         anchors.right: decFontButton.left
         text: "Clear"
-        onClicked: textBox.text = ""
+        onClicked: {
+            typingSound.muted = true;
+            textBox.text = "";
+            typingSound.muted = muteButton.checked
+        }
     }
 
-    TextEdit {
+    TextInput {
         id: textBox
         y: 30
         width: mainWindow.width
@@ -58,12 +64,22 @@ Window {
         color: "black"
         focus: true
         wrapMode: TextEdit.Wrap
-        onTextChanged: typingSound.play()
+        onTextEdited: typingSound.play()
     }
 
     SoundEffect {
         id: typingSound
         source: "sfx.wav"
         muted: false
+    }
+
+    // keyboard shortcuts
+    Shortcut {
+        sequence: StandardKey.ZoomIn
+        onActivated: incFontButton.clicked()
+    }
+    Shortcut {
+        sequence: StandardKey.ZoomOut
+        onActivated: decFontButton.clicked()
     }
 }
