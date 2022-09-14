@@ -10,6 +10,59 @@ Window {
     visible: true
     title: qsTr("Voicebox")
 
+    TextInput {
+        id: textBox
+        y: 30
+        width: mainWindow.width
+        height: mainWindow.height - 30
+        font.family: "Helvetica"
+        font.pointSize: 20
+        color: "black"
+        focus: true
+        wrapMode: TextEdit.Wrap
+        onTextEdited: {
+            if (!typingSound1.playing) typingSound1.play()
+            else if (!typingSound2.playing) typingSound2.play()
+            else if (!typingSound3.playing) typingSound3.play()
+            else if (!typingSound4.playing) typingSound4.play()
+            else if (!typingSound5.playing) typingSound5.play()
+        }
+    }
+
+    // multiple sound effects to avoid cutting out while still allowing sound on faster typing
+    property real sfxVolume: 0.5
+    SoundEffect {
+        id: typingSound1
+        source: "sfx.wav"
+        muted: muteButton.checked
+        volume: sfxVolume
+    }
+    SoundEffect {
+        id: typingSound2
+        source: "sfx.wav"
+        muted: muteButton.checked
+        volume: sfxVolume
+    }
+    SoundEffect {
+        id: typingSound3
+        source: "sfx.wav"
+        muted: muteButton.checked
+        volume: sfxVolume
+    }
+    SoundEffect {
+        id: typingSound4
+        source: "sfx.wav"
+        muted: muteButton.checked
+        volume: sfxVolume
+    }
+    SoundEffect {
+        id: typingSound5
+        source: "sfx.wav"
+        muted: muteButton.checked
+        volume: sfxVolume
+    }
+
+    // menus and buttons
     MenuBar {
         id: menuBar
         width: mainWindow.width
@@ -21,7 +74,6 @@ Window {
                 text: "Mute"
                 checkable: true
                 checked: false
-                onToggled: { typingSound.muted = checked;  }
             }
         }
     }
@@ -47,33 +99,15 @@ Window {
         parent: menuBar
         anchors.right: decFontButton.left
         text: "Clear"
-        onClicked: {
-            typingSound.muted = true;
-            textBox.text = "";
-            typingSound.muted = muteButton.checked
-        }
-    }
-
-    TextInput {
-        id: textBox
-        y: 30
-        width: mainWindow.width
-        height: mainWindow.height - 30
-        font.family: "Helvetica"
-        font.pointSize: 20
-        color: "black"
-        focus: true
-        wrapMode: TextEdit.Wrap
-        onTextEdited: typingSound.play()
-    }
-
-    SoundEffect {
-        id: typingSound
-        source: "sfx.wav"
-        muted: false
+        onClicked: textBox.text = ""
     }
 
     // keyboard shortcuts
+    Shortcut {
+        autoRepeat: false
+        sequence: "Ctrl+Q"
+        onActivated: clearButton.clicked()
+    }
     Shortcut {
         sequence: StandardKey.ZoomIn
         onActivated: incFontButton.clicked()
