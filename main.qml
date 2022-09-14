@@ -5,22 +5,24 @@ import QtMultimedia
 
 Window {
     id: mainWindow
-    width: 800
-    height: 230
+    width: 1000
+    height: 100
     visible: true
+    color: "black"
     title: qsTr("Voicebox")
 
-    TextInput {
+    TextEdit {
         id: textBox
         y: 30
-        width: mainWindow.width
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: mainWindow.width - 10
         height: mainWindow.height - 30
         font.family: "Helvetica"
         font.pointSize: 20
-        color: "black"
+        color: "white"
         focus: true
         wrapMode: TextEdit.Wrap
-        onTextEdited: {
+        onTextChanged: {
             if (!typingSound1.playing) typingSound1.play()
             else if (!typingSound2.playing) typingSound2.play()
             else if (!typingSound3.playing) typingSound3.play()
@@ -30,7 +32,7 @@ Window {
     }
 
     // multiple sound effects to avoid cutting out while still allowing sound on faster typing
-    property real sfxVolume: 0.5
+    property real sfxVolume: 0.4
     SoundEffect {
         id: typingSound1
         source: "sfx.wav"
@@ -74,6 +76,22 @@ Window {
                 text: "Mute"
                 checkable: true
                 checked: false
+            }
+            Action {
+                id: nightModeButton
+                text: "Night Mode"
+                checkable: true
+                checked: true
+                onToggled: {
+                    if (checked) {
+                        mainWindow.color = "black"
+                        textBox.color = "white"
+                    }
+                    else {
+                        mainWindow.color = "white"
+                        textBox.color = "black"
+                    }
+                }
             }
         }
     }
