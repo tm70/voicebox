@@ -127,6 +127,8 @@ Window {
 
     // settings
     Settings {
+        property alias windowWidth: mainWindow.width
+        property alias windowHeight: mainWindow.height
         property alias fontSize: textBox.font.pointSize
         property alias volume: mainWindow.sfxVolume
         property alias mute: muteButton.checked
