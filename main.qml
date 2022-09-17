@@ -33,34 +33,35 @@ Window {
     }
 
     // multiple sound effects to avoid cutting out while still allowing sound on faster typing
-    property real sfxVolume: 0.25
+    property real sfxVolume: 0.5
+    property string sfxSource: "file:///" + applicationDirPath + "/sfx.wav"
     SoundEffect {
         id: typingSound1
-        source: "sfx.wav"
+        source: sfxSource
         muted: muteButton.checked
         volume: sfxVolume
     }
     SoundEffect {
         id: typingSound2
-        source: "sfx.wav"
+        source: sfxSource
         muted: muteButton.checked
         volume: sfxVolume
     }
     SoundEffect {
         id: typingSound3
-        source: "sfx.wav"
+        source: sfxSource
         muted: muteButton.checked
         volume: sfxVolume
     }
     SoundEffect {
         id: typingSound4
-        source: "sfx.wav"
+        source: sfxSource
         muted: muteButton.checked
         volume: sfxVolume
     }
     SoundEffect {
         id: typingSound5
-        source: "sfx.wav"
+        source: sfxSource
         muted: muteButton.checked
         volume: sfxVolume
     }
