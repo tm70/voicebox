@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     QSettings::setDefaultFormat(QSettings::IniFormat);
 
     QQmlApplicationEngine engine;
+
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

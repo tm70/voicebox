@@ -34,7 +34,8 @@ Window {
 
     // multiple sound effects to avoid cutting out while still allowing sound on faster typing
     property real sfxVolume: 0.5
-    property string sfxSource: "file:///" + applicationDirPath + "/sfx.wav"
+    property string sfxSource: "sfx.wav"
+    //property string sfxSource: "file:///" + applicationDirPath + "/sfx.wav"
     SoundEffect {
         id: typingSound1
         source: sfxSource
